@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Gamifier</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Theme CSS -->
+    <link href="/static/css/agency.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+        <!-- CSS retirar daqui -->    
+
+<style>
+.objects {
+
+    display:inline-block;
+    border:1px solid #666;
+    width: 45px; 
+    height: 45px;
+    border-radius:50%;
+    margin: 10px;
+    padding: 8px;
+    font-size: 10px;
+    text-align: center;
+    box-shadow: 2px 2px 2px #999;
+    cursor: move;
+}
+
+
+#container_technique {
+
+    display: inline-block;
+    border:1px solid #666;
+    height: 500px;
+    width: 200px; 
+    padding: 8px;
+    font-size: 18px;
+    margin-left: 30px;
+
+}
+
+
+#drop_zone {
+
+    display: inline-block;
+    border:1px solid #666;
+    height:500px;
+    width:500px;
+    background-image: url('/static/img/cald.png');
+
+
+}
+
+#container_cor_drive {
+
+    display: inline-block;
+    border:1px solid #665;
+    height: 500px;
+    width: 200px; 
+    padding: 8px;
+    font-size: 18px;
+    margin-right: 30px;
+
+
+}
+
+#game-zone {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+</style>
+
+<!-- javascript -->    
+
+<script>
+
+function _(id){
+   return document.getElementById(id);  
+}
+var droppedIn = false;
+
+function drag_start(event) {
+
+    _('app_status').innerHTML = "Dragging the "+event.target.getAttribute('id');
+    event.dataTransfer.dropEffect = "move";
+    event.dataTransfer.setData("text", event.target.getAttribute('id') );
+}
+
+function drag_enter(event) {
+    _('app_status').innerHTML = "You are dragging over the "+event.target.getAttribute('id');
+}
+
+function drag_leave(event) {
+    _('app_status').innerHTML = "You left the "+event.target.getAttribute('id');
+}
+
+function drag_drop(event) {
+    event.preventDefault(); /* Prevent undesirable default behavior while dropping */
+    var elem_id = event.dataTransfer.getData("text");
+    event.target.appendChild( _(elem_id) );
+    _('app_status').innerHTML = "Dropped "+elem_id+" into the "+event.target.getAttribute('id');
+  //  _(elem_id).removeAttribute("draggable");
+    _(elem_id).style.cursor = "default";
+    droppedIn = true;
+}
+function drag_end(event) {
+    if(droppedIn == false){
+        _('app_status').innerHTML = "You let the "+event.target.getAttribute('id')+" go.";
+    }
+    droppedIn = false;
+}
+function readDropZone(){
+    for(var i=0; i < _("drop_zone").children.length; i++){
+        alert(_("drop_zone").children[i].id+" is in the drop zone");
+    }
+    /* Run Ajax request to pass any data to your server */
+}
+</script>
+
+<!-- Team Section -->
+<!-- <section id="game" class="bg-light-gray">
+
+   
+ -->
+<h2 id="app_status"></h2>
+
+<div id="game-zone">
+    <div id="container_technique" ondragenter="drag_enter(event)" ondrop="drag_drop(event)" ondragover="return false" ondragleave="drag_leave(event)">
+
+    {%for tecnhique in my_technique%}
+
+          <div id= {{tecnhique.name_gamification_technique}} class="objects" draggable="true" ondragstart="drag_start(event)" ondragend="       drag_end(event)" data-toggle="tooltip" data-placement="top" title="{{tecnhique.name_gamification_technique}}: {{tecnhique.description_gamification_technique}}.">{{tecnhique.number_gamification_technique}}
+          </div>
+          
+    {%endfor%}
+
+
+    </div>
+
+    <div id="drop_zone" ondragenter="drag_enter(event)" ondrop="drag_drop(event)" ondragover="return false" ondragleave="drag_leave(event)" >
+    </div>
+
+
+    <div id="container_cor_drive" ondragenter="drag_enter(event)" ondrop="drag_drop(event)" ondragover="return false" ondragleave="drag_leave(event)">
+       
+         
+    {%for tecnhique in my_technique%}
+
+        {{tecnhique.name_gamification_technique}}
+        
+    {%endfor%}
+
+    </div>
+
+</div>
+<hr>
+    </section>
+
+    
+
+   
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="copyright">Copyright &copy; Your Website 2016</span>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="#">Privacy Policy</a>
+                        </li>
+                        <li><a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+ 
+    
+    <!-- jQuery -->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="/static/js/jqBootstrapValidation.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="/static/js/agency.min.js"></script>
+
+</body>
+
+</html>

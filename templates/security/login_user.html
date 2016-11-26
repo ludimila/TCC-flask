@@ -1,0 +1,68 @@
+{% extends "layouts/layout1.html" %}
+
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
+
+{% block title %}
+    Login Page
+{% endblock %}
+
+{% block css %}
+  <link href="/static/css/form.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block navbar %}
+
+    <li>
+        <a class="page-scroll" href="/">Home</a>
+    </li>
+    <li>
+        <a class="page-scroll" href="register">Sign in!</a>
+    </li>
+    <li>
+        <a class="page-scroll" href="#form__field">Login</a>
+    </li>
+
+{% endblock %}
+
+{% block content %}
+
+
+<header>
+  <div class="container">
+    <div class="intro-text">
+      <div class="align">
+
+        <div class="grid">
+
+          <form action="{{ url_for_security('login') }}" method="POST" class="form login" name="login_user_form">
+
+            {{ login_user_form.hidden_tag() }}
+
+            <div class="form__field" id="form__field">
+              {{ render_field_with_errors(login_user_form.email, class="form__input", placeholder="Type your email") }}
+            </div>
+
+            <div class="form__field">
+              {{ render_field_with_errors(login_user_form.password, class="form__input", placeholder="Type your password") }}
+            </div>
+
+            <div class="form__field">
+              {{ render_field_with_errors(login_user_form.remember) }}
+            </div>
+
+            <div class="form__field">
+              {{ render_field(login_user_form.next) }}
+              {{ render_field(login_user_form.submit, class="btn btn-xl") }}
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% endblock %}
+

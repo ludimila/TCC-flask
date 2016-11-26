@@ -1,0 +1,44 @@
+.objects
+{
+  border: 1px solid #666;
+  border-radius: 50%;
+  box-shadow: 2px 2px 2px #999;
+  cursor: move;
+  display: inline-block;
+  font-size: 10px;
+  height: 45px;
+  margin: 10px;
+  padding: 8px;
+  text-align: center;
+  width: 45px;
+}
+#container_technique
+{
+  border: 1px solid #666;
+  display: inline-block;
+  font-size: 18px;
+  margin-left: 30px;
+  padding: 8px;
+  width: 250px;
+}
+#drop_zone
+{
+  background-image: url('/static/img/cald.png');
+  border: 1px solid #666;
+  display: inline-block;
+  width: 500px;
+}
+#container_cor_drive
+{
+  border: 1px solid #665;
+  display: inline-block;
+  font-size: 18px;
+  margin-right: 30px;
+  padding: 8px;
+  width: 250px;
+}
+#game-zone
+{
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.2-beta1" last-position="2,1" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<database name="new_database">
+</database>
+
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="User">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="132" y="50"/>
+	<column name="idUser" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="emailUser" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="passwordUser" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="username" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="iduser" type="pk-constr" table="public.&quot;User&quot;">
+		<columns names="idUser" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="GamificationProject">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="400" y="132"/>
+	<column name="idProject" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="descriptionProject">
+		<type name="text"/>
+	</column>
+	<column name="creationDate" not-null="true">
+		<type name="date"/>
+	</column>
+	<constraint name="idProject" type="pk-constr" table="public.&quot;GamificationProject&quot;">
+		<columns names="idProject" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="GamificationType">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="830" y="112"/>
+	<column name="idGamificationType" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="nameGamificationType" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="descriptionGamificationType" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<constraint name="idGamificationType" type="pk-constr" table="public.&quot;GamificationType&quot;">
+		<columns names="idGamificationType" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="CoreDrive">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="174" y="383"/>
+	<column name="idCoreDrive" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="nameCoreDrive" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="descriptionCoreDrive" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="idCoreDrive" type="pk-constr" table="public.&quot;CoreDrive&quot;">
+		<columns names="idCoreDrive" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="GamificationTechnique">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="601" y="377"/>
+	<column name="idGamificationTechnique" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="nameGamificationTechnique" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="descriptionGamificationTechnique" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="numberGamificationTechnique" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<constraint name="idGamificatonTechnique" type="pk-constr" table="public.&quot;GamificationTechnique&quot;">
+		<columns names="idGamificationTechnique" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Atributte">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1053" y="513"/>
+	<column name="idAtributte" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="nameAtributte" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="descriptionAtributte" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="valueAtributte">
+		<type name="smallint"/>
+	</column>
+	<constraint name="idAtributte" type="pk-constr" table="public.&quot;Atributte&quot;">
+		<columns names="idAtributte" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="User_has_many_GamificationProject" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#1e666e"
+	 src-table="public.&quot;User&quot;"
+	 dst-table="public.&quot;GamificationProject&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="src-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="GamificationProject_has_many_GamificationType" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#799de6"
+	 src-table="public.&quot;GamificationProject&quot;"
+	 dst-table="public.&quot;GamificationType&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="many_GamificationProject_has_many_CoreDrive" type="relnn"
+	 src-col-pattern="{sc}_{st}" dst-col-pattern="{sc}_{dt}"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 pk-col-pattern="id"
+	 custom-color="#79594b"
+	 src-table="public.&quot;GamificationProject&quot;"
+	 dst-table="public.&quot;CoreDrive&quot;"
+	 src-required="false" dst-required="false"
+	 table-name="many_GamificationProject_has_many_CoreDrive">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="many_CoreDrive_has_many_GamificationTechnique" type="relnn"
+	 src-col-pattern="{sc}_{st}" dst-col-pattern="{sc}_{dt}"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 pk-col-pattern="id"
+	 custom-color="#c01a4f"
+	 src-table="public.&quot;CoreDrive&quot;"
+	 dst-table="public.&quot;GamificationTechnique&quot;"
+	 src-required="false" dst-required="false"
+	 table-name="many_CoreDrive_has_many_GamificationTechnique">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="many_GamificationTechnique_has_many_Atributte" type="relnn"
+	 src-col-pattern="{sc}_{st}" dst-col-pattern="{sc}_{dt}"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 pk-col-pattern="id"
+	 custom-color="#8caa4c"
+	 src-table="public.&quot;GamificationTechnique&quot;"
+	 dst-table="public.&quot;Atributte&quot;"
+	 src-required="false" dst-required="false"
+	 table-name="many_GamificationTechnique_has_many_Atributte">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<table name="admin">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="80" y="211"/>
+</table>
+
+</dbmodel>

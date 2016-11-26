@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Gamifier</title>
+      <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom Fonts -->
+      <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+      <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+      <link href="/static/css/agency.min.css" rel="stylesheet">
+      <script src="/static/js/draganddrop.js"></script> 
+      <script src="/static/js/dashboard.js"></script> 
+   </head>
+   <body>
+
+ <form action="/csv_export" method="GET">
+      <section id="portfolio" class="bg-light-gray">
+         <div class="container">
+            <div class="col-lg-12 text-center">
+               <h2 class="section-heading">Project Detail</h2>
+               <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            </div>
+            <!-- amCharts javascript sources -->
+            <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+            <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
+            <script type="text/javascript">
+               var cores_dashboard = JSON.parse(localStorage.getItem("cores"));
+               AmCharts.makeChart("chartdiv",
+               {
+                 "type": "pie",
+                 "balloonText": "[[title]]<br><span style='font-size:20px'><b>[[value]]</b> ([[percents]]%)</span>",
+                 "innerRadius": "40%",
+                 "titleField": "category",
+                 "valueField": "column-1",
+                 "allLabels": [],
+                 "balloon": {},
+                 "legend": {
+                   "enabled": true,
+                   "align": "center",
+                   "markerType": "circle"
+                 },
+                 "titles": [],
+                 "dataProvider": [
+                 {
+                   "category": "{{my_core[0].name_core_drive}}",
+                   "column-1": cores_dashboard[1]
+                 },
+                 {
+                   "category": "{{my_core[1].name_core_drive}}",
+                   "column-1": cores_dashboard[2]
+                 },
+                 {
+                   "category": "{{my_core[2].name_core_drive}}",
+                   "column-1": cores_dashboard[3]
+                 },
+                 {
+                   "category":"{{my_core[3].name_core_drive}}",
+                   "column-1": cores_dashboard[4]
+                 },
+                 {
+                   "category": "{{my_core[4].name_core_drive}}",
+                   "column-1": cores_dashboard[5]
+                 },
+                 {
+                   "category": "{{my_core[5].name_core_drive}}",
+                   "column-1": cores_dashboard[6]
+                 },
+                 {
+                   "category": "{{my_core[6].name_core_drive}}",
+                   "column-1": cores_dashboard[7]
+                 },
+                 {
+                   "category": "{{my_core[7].name_core_drive}}",
+                   "column-1": cores_dashboard[8]
+                 }
+                 ]
+               }
+               );
+               
+               AmCharts.makeChart("attdiv",
+               {
+                 "type": "pie",
+                 "balloonText": "[[title]]<br><span style='font-size:20px'><b>[[value]]</b> ([[percents]]%)</span>",
+                 "innerRadius": "40%",
+                 "titleField": "category",
+                 "valueField": "column-1",
+                 "allLabels": [],
+                 "balloon": {},
+                 "legend": {
+                   "enabled": true,
+                   "align": "center",
+                   "markerType": "circle"
+                 },
+                 "titles": [],
+                 "dataProvider": [
+                 {
+                   "category": "{{my_atributte[0].name_atributte}}",
+                   "column-1": "{{content["attention"]}}"
+                 },
+                 {
+                   "category": "{{my_atributte[1].name_atributte}}",
+                   "column-1": "{{content["persistence"]}}"
+                 },
+                 {
+                   "category": "{{my_atributte[2].name_atributte}}",
+                   "column-1": "{{content["participation"]}}"
+                 },
+                 {
+                   "category":"{{my_atributte[3].name_atributte}}",
+                   "column-1": "{{content["mastery"]}}"
+                 },
+                 {
+                   "category": "{{my_atributte[4].name_atributte}}",
+                   "column-1": "{{content["social"]}}"
+                 },
+                 {
+                   "category": "{{my_atributte[5].name_atributte}}",
+                   "column-1": "{{content["work_involvement"]}}"
+                 }
+                 ]
+               }
+               );
+               
+               function count_using_cores(cores_dashboard_2) {
+               
+               var using_cores = 0;
+               var half_percent = 0;
+               var remaining_cores = 0;
+               
+               for (var i=0; i < cores_dashboard_2.length; i++){
+                   var make_array = cores_dashboard_2[i];
+               
+                   if (make_array[1] != 0){
+                       using_cores++;
+                   }
+               }
+               return using_cores;
+               }
+               
+               function write_cores(cores_dashboard) {
+               var array_cores = sort_dict(cores_dashboard);
+               
+               var half_percent = array_cores[0][1]+array_cores[1][1]+array_cores[2][1];
+               var using_cores = count_using_cores(cores_dashboard);
+               
+               var invisible_div = document.getElementById('all_cores_invisible').getElementsByTagName('div');
+               var visible_div = document.getElementById('all_cores_visible');
+               
+               
+               if (half_percent > using_cores/2){
+               for (var i = 0; i < 3; i++) {
+                   var div = document.getElementById(array_cores[i][0]);
+                   div.style.display = "block";
+                   visible_div.appendChild(div);
+               };
+               }else{
+               for (var i = 0; i < array_cores.length; i++) {
+                 var div = document.getElementById(array_cores[i][0]);
+                 div.style.display = "block";
+                 visible_div.appendChild(div);
+               };
+               } 
+               }
+               
+               function hide_all_divs() {
+               var childDivs = document.getElementById('all_cores_invisible').getElementsByTagName('div');
+                   for( i=0; i< childDivs.length; i++ ){
+                      childDivs[i].style.display = "none";
+               }
+               
+               }
+               
+               function get_coreID () {
+               var childDivs = document.getElementById('all_cores_invisible').getElementsByTagName('div');
+                var array_cores = "";
+                   for( i=0; i< childDivs.length; i++ ){
+                       var string_elem_id  = childDivs[i].id.split(" ");
+                       var id_core = string_elem_id[0];
+                       arrayTechniques = arrayTechniques + id_cores + " ";
+                   }
+               document.getElementById("id_core").value = array_cores;
+               }
+               
+               
+               setTimeout(function() {
+               hide_all_divs();
+               write_cores(cores_dashboard);
+               }, 100 );
+               
+            </script>
+            <div id="all_cores_invisible">
+               <div id="{{my_core[0].id}}">
+                  <p> <b>{{my_core[0].name_core_drive}}: </b> {{my_core[0].description_core_drive}}</p>
+               </div>
+               <div id="{{my_core[1].id}}">
+                  <p><b>{{my_core[1].name_core_drive}}: </b> {{my_core[1].description_core_drive}}</p>
+               </div>
+               <div id="{{my_core[2].id}}">
+                  <p> <b>{{my_core[2].name_core_drive}}: </b>{{my_core[2].description_core_drive}}</p>
+               </div>
+               <div id="{{my_core[3].id}}">
+                  <p><b>{{my_core[3].name_core_drive}}: </b> {{my_core[3].description_core_drive}}</p>
+               </div>
+               <div id="{{my_core[4].id}}">
+                  <p><b>{{my_core[4].name_core_drive}}: </b>{{my_core[4].description_core_drive}}</p>
+               </div>
+               <div id="{{my_core[5].id}}">
+                  <p><b> {{my_core[5].name_core_drive}}: </b>{{my_core[5].description_core_drive}}</p>
+               </div>
+               <div id="{{my_core[6].id}}">
+                  <p><b>{{my_core[6].name_core_drive}}: </b>{{my_core[6].description_core_drive}}</p>
+               </div>
+               <div id="{{my_core[7].id}}">
+                  <p><b>{{my_core[7].name_core_drive}}: </b>{{my_core[7].description_core_drive}}</p>
+               </div>
+            </div>
+            <div id="all_cores_visible"></div>
+            <title>chart created with amCharts | amCharts</title>
+            <meta name="description" content="chart created using amCharts live editor" />
+            <div id="chartdiv" style="width: 100%; height: 400px;"></div>
+            <div id="attdiv" style="width: 100%; height: 400px;"></div>
+         </div>
+      </section>
+    <input class="form-control" type ="hidden" value ="{{current_user.id}}" rows="4" id= "current_user" name="current_user"></input>
+    <button type="submit" class="btn btn-xl" name="Create" id="export" style="float: right"; >Export To CSV </button>
+
+      <footer>
+         <div class="container">
+            <div class="row">
+               <div class="col-md-4">
+                  <span class="copyright">Copyright &copy; Gamifier 2016</span>
+               </div>
+               <div class="col-md-4">
+                  <ul class="list-inline social-buttons">
+                     <li><a href="#"><i class="fa fa-twitter"></i></a>
+                     </li>
+                     <li><a href="#"><i class="fa fa-facebook"></i></a>
+                     </li>
+                     <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                     </li>
+                  </ul>
+               </div>
+               <div class="col-md-4">
+                  <ul class="list-inline quicklinks">
+                     <li><a href="#">Privacy Policy</a>
+                     </li>
+                     <li><a href="#">Terms of Use</a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- jQuery -->
+      <script src="/static/vendor/jquery/jquery.min.js"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+      <!-- Plugin JavaScript -->
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+      <!-- Contact Form JavaScript -->
+      <script src="/static/js/jqBootstrapValidation.js"></script>
+      <!-- Theme JavaScript -->
+      <script src="/static/js/agency.min.js"></script>
+    </form>
+   </body>
+</html>
